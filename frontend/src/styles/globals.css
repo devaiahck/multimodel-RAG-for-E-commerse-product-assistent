@@ -8,7 +8,28 @@
 
 @import 'tailwindcss';
 
-/* ── Base ─────────────────────────────────────────────────────── */
+/* ── Dark form controls & placeholder styling ──────────────── */
+input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+input[data-dark="true"]::placeholder,
+.auth-card input::placeholder {
+  color: var(--on-dark-muted);
+  opacity: 0.7;
+}
+
+/* Chrome/Safari autofill override on dark surfaces */
+.auth-card input:-webkit-autofill,
+.auth-card input:-webkit-autofill:hover,
+.auth-card input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--on-dark) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--ink-700) inset !important;
+  box-shadow: 0 0 0px 1000px var(--ink-700) inset !important;
+  caret-color: var(--champagne) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 *,
 *::before,
 *::after {
@@ -209,8 +230,7 @@ body {
   inset: -1px;
   border-radius: 20px;
   border: 1.5px solid transparent;
-  background: linear-gradient(#000, #000) padding-box,
-    linear-gradient(
+  background: linear-gradient(
         135deg,
         transparent 0%,
         rgba(233, 204, 143, 0.8) 30%,
@@ -219,6 +239,9 @@ body {
         transparent 100%
       )
       border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
   animation: borderGlow 1.4s ease-in-out 0.2s both;
 }

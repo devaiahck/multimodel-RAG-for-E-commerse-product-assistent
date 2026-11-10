@@ -22,6 +22,8 @@ Run:
     python test_backend.py
 """
 
+import asyncio
+import inspect
 import io
 import json
 import sys
@@ -167,6 +169,8 @@ def test_schema_none_image_url_ok():
 def test_agent_reasoning_fallback_no_products():
     print("\n--- 1a. Agent reasoning: fallback, no products ---")
     res = generate_grounded_response("earphones", [])
+    if inspect.iscoroutine(res):
+        res = asyncio.run(res)
     assert "summary" in res
     assert "comparison_table" in res
     assert res["comparison_table"] == []
@@ -187,6 +191,8 @@ def test_agent_reasoning_fallback_with_products():
         }
     ]
     res = generate_grounded_response("noise cancelling headphones", mock)
+    if inspect.iscoroutine(res):
+        res = asyncio.run(res)
     assert "summary" in res
     assert isinstance(res["comparison_table"], list)
     assert len(res["comparison_table"]) >= 1
@@ -659,6 +665,270 @@ def test_budget_query_returns_cheap_products(client):
 
 
 # ---------------------------------------------------------------------------
+# 5. Browse and Category Endpoint Tests (self-contained fixtures)
+# ---------------------------------------------------------------------------
+
+BROWSE_TEST_PRODUCTS = [
+    {
+        "product_id": "test-browse-clothing-1",
+        "title": "Casual Linen Blue Shirt",
+        "brand": "Fabindia",
+        "category": "Clothing / Shirts",
+        "specs": "100% pure breathable linen summer shirt with mandarin collar",
+        "image_url": None,
+        "current_price": 1200.0,
+        "original_price": 1500.0,
+        "rating": 4.5,
+        "discount": 20.0,
+        "availability": "In Stock",
+        "store": "Myntra",
+        "store_availability": [{"store": "Myntra", "price": 1200.0, "url": "https://myntra.com/search"}],
+        "price_history": [{"date": "2026-11-01", "price": 1200.0}],
+    },
+    {
+        "product_id": "test-browse-clothing-2",
+        "title": "Cotton Graphic Tee",
+        "brand": "Wrogn",
+        "category": "Clothing / T-Shirts",
+        "specs": "Comfortable daily wear cotton graphic print crew neck t-shirt",
+        "image_url": None,
+        "current_price": 600.0,
+        "original_price": 1000.0,
+        "rating": 4.0,
+        "discount": 40.0,
+        "availability": "In Stock",
+        "store": "Flipkart",
+        "store_availability": [{"store": "Flipkart", "price": 600.0, "url": "https://flipkart.com/search"}],
+        "price_history": [{"date": "2026-11-01", "price": 600.0}],
+    },
+    {
+        "product_id": "test-browse-shoes-1",
+        "title": "Puma Nitro Running Shoes",
+        "brand": "Puma",
+        "category": "Shoes / Running Shoes",
+        "specs": "Lightweight cushioned foam running shoes with high traction sole",
+        "image_url": None,
+        "current_price": 3500.0,
+        "original_price": 5000.0,
+        "rating": 4.8,
+        "discount": 30.0,
+        "availability": "In Stock",
+        "store": "Amazon",
+        "store_availability": [{"store": "Amazon", "price": 3500.0, "url": "https://amazon.in/search"}],
+        "price_history": [{"date": "2026-11-01", "price": 3500.0}],
+    },
+    {
+        "product_id": "test-browse-watches-1",
+        "title": "Titan Neo Analog Watch",
+        "brand": "Titan",
+        "category": "Watches / Analog Watches",
+        "specs": "Sleek stainless steel quartz watch with blue dial and water resistance",
+        "image_url": None,
+        "current_price": 2500.0,
+        "original_price": 3000.0,
+        "rating": 4.2,
+        "discount": 16.7,
+        "availability": "In Stock",
+        "store": "Amazon",
+        "store_availability": [{"store": "Amazon", "price": 2500.0, "url": "https://amazon.in/search"}],
+        "price_history": [{"date": "2026-11-01", "price": 2500.0}],
+    },
+]
+
+
+def _ingest_browse_fixtures(client):
+    for p in BROWSE_TEST_PRODUCTS:
+        resp = client.post("/api/v1/ingest", json=p)
+        assert resp.status_code == 201
+
+
+def _cleanup_browse_fixtures(client):
+    for p in BROWSE_TEST_PRODUCTS:
+        client.delete(f"/api/v1/products/{p['product_id']}")
+
+
+def test_browse_products_category_filter(client):
+    print("\n--- 5a. Browse: category filter ---")
+    _ingest_browse_fixtures(client)
+    try:
+        resp = client.get("/api/v1/products?category=clothing")
+        assert resp.status_code == 200
+        data = resp.json()
+        items = data["items"]
+        pids = [item["product_id"] for item in items]
+        assert "test-browse-clothing-1" in pids
+        assert "test-browse-clothing-2" in pids
+        assert "test-browse-shoes-1" not in pids
+        assert "test-browse-watches-1" not in pids
+        for it in items:
+            assert "clothing" in it["category"].lower()
+        print(f"[OK] Category filter returned {len(items)} items matching 'clothing'")
+    finally:
+        _cleanup_browse_fixtures(client)
+
+
+def test_browse_products_price_range(client):
+    print("\n--- 5b. Browse: min_price and max_price filter ---")
+    _ingest_browse_fixtures(client)
+    try:
+        resp = client.get("/api/v1/products?min_price=1000&max_price=3000&limit=100")
+        assert resp.status_code == 200
+        data = resp.json()
+        items = data["items"]
+        pids = [item["product_id"] for item in items]
+        assert "test-browse-clothing-1" in pids
+        assert "test-browse-watches-1" in pids
+        assert "test-browse-clothing-2" not in pids
+        assert "test-browse-shoes-1" not in pids
+        for it in items:
+            assert 1000.0 <= it["current_price"] <= 3000.0
+        print(f"[OK] Price range [1000, 3000] correctly filtered products")
+    finally:
+        _cleanup_browse_fixtures(client)
+
+
+def test_browse_products_sort_order(client):
+    print("\n--- 5c. Browse: sort orders ---")
+    _ingest_browse_fixtures(client)
+    try:
+        # Sort price_asc
+        resp_asc = client.get("/api/v1/products?sort=price_asc&limit=100")
+        assert resp_asc.status_code == 200
+        items_asc = resp_asc.json()["items"]
+        test_asc = [it for it in items_asc if it["product_id"].startswith("test-browse-")]
+        assert len(test_asc) >= 2
+        prices_asc = [it["current_price"] for it in test_asc]
+        assert prices_asc == sorted(prices_asc)
+        assert test_asc[0]["product_id"] == "test-browse-clothing-2"
+
+        # Sort price_desc
+        resp_desc = client.get("/api/v1/products?sort=price_desc&limit=100")
+        assert resp_desc.status_code == 200
+        items_desc = resp_desc.json()["items"]
+        test_desc = [it for it in items_desc if it["product_id"].startswith("test-browse-")]
+        assert len(test_desc) >= 2
+        prices_desc = [it["current_price"] for it in test_desc]
+        assert prices_desc == sorted(prices_desc, reverse=True)
+        assert test_desc[0]["product_id"] == "test-browse-shoes-1"
+
+        # Sort rating
+        resp_rating = client.get("/api/v1/products?sort=rating&limit=100")
+        assert resp_rating.status_code == 200
+        items_rating = resp_rating.json()["items"]
+        test_rating = [it for it in items_rating if it["product_id"].startswith("test-browse-")]
+        assert len(test_rating) >= 2
+        ratings = [it["rating"] for it in test_rating]
+        assert ratings == sorted(ratings, reverse=True)
+        assert test_rating[0]["product_id"] == "test-browse-shoes-1"
+
+        # Sort discount
+        resp_disc = client.get("/api/v1/products?sort=discount&limit=100")
+        assert resp_disc.status_code == 200
+        items_disc = resp_disc.json()["items"]
+        test_disc = [it for it in items_disc if it["product_id"].startswith("test-browse-")]
+        assert len(test_disc) >= 2
+        discounts = [it["discount"] for it in test_disc]
+        assert discounts == sorted(discounts, reverse=True)
+        assert test_disc[0]["product_id"] == "test-browse-clothing-2"
+
+        print("[OK] sort options (price_asc, price_desc, rating, discount) all verified")
+    finally:
+        _cleanup_browse_fixtures(client)
+
+
+def test_browse_products_pagination(client):
+    print("\n--- 5d. Browse: pagination (offset, limit, total) ---")
+    _ingest_browse_fixtures(client)
+    try:
+        resp1 = client.get("/api/v1/products?category=clothing&limit=1&offset=0")
+        assert resp1.status_code == 200
+        data1 = resp1.json()
+        assert data1["limit"] == 1
+        assert data1["offset"] == 0
+        assert data1["total"] >= 2
+        assert len(data1["items"]) == 1
+        item1_id = data1["items"][0]["product_id"]
+
+        resp2 = client.get("/api/v1/products?category=clothing&limit=1&offset=1")
+        assert resp2.status_code == 200
+        data2 = resp2.json()
+        assert data2["limit"] == 1
+        assert data2["offset"] == 1
+        assert data2["total"] == data1["total"]
+        assert len(data2["items"]) == 1
+        item2_id = data2["items"][0]["product_id"]
+
+        assert item1_id != item2_id
+        print(f"[OK] Pagination verified: page 1 '{item1_id}', page 2 '{item2_id}', total={data1['total']}")
+    finally:
+        _cleanup_browse_fixtures(client)
+
+
+def test_browse_products_q_filter(client):
+    print("\n--- 5e. Browse: 'q' substring filter ---")
+    _ingest_browse_fixtures(client)
+    try:
+        # Match title substring
+        resp_title = client.get("/api/v1/products?q=linen")
+        assert resp_title.status_code == 200
+        items_title = resp_title.json()["items"]
+        pids_title = [it["product_id"] for it in items_title]
+        assert "test-browse-clothing-1" in pids_title
+
+        # Match brand substring
+        resp_brand = client.get("/api/v1/products?q=wrogn")
+        assert resp_brand.status_code == 200
+        items_brand = resp_brand.json()["items"]
+        pids_brand = [it["product_id"] for it in items_brand]
+        assert "test-browse-clothing-2" in pids_brand
+
+        # Match category substring
+        resp_cat = client.get("/api/v1/products?q=analog&limit=100")
+        assert resp_cat.status_code == 200
+        items_cat = resp_cat.json()["items"]
+        pids_cat = [it["product_id"] for it in items_cat]
+        assert "test-browse-watches-1" in pids_cat
+
+        # Non-matching keyword
+        resp_none = client.get("/api/v1/products?q=nonexistentkeywordxyz")
+        assert resp_none.status_code == 200
+        items_none = resp_none.json()["items"]
+        pids_none = [it["product_id"] for it in items_none]
+        assert "test-browse-clothing-1" not in pids_none
+        assert "test-browse-clothing-2" not in pids_none
+
+        print("[OK] 'q' substring search across title, brand, and category verified")
+    finally:
+        _cleanup_browse_fixtures(client)
+
+
+def test_categories_endpoint_counts(client):
+    print("\n--- 5f. Categories: count and order ---")
+    _ingest_browse_fixtures(client)
+    try:
+        resp = client.get("/api/v1/categories")
+        assert resp.status_code == 200
+        cats = resp.json()
+        assert isinstance(cats, list)
+        slugs = [c["slug"] for c in cats]
+        expected_fixed = ["clothing", "shoes", "watches", "electronics", "home", "beauty", "sports"]
+        for expected in expected_fixed:
+            assert expected in slugs, f"Expected category '{expected}' not found in {slugs}"
+
+        assert slugs[:7] == expected_fixed, f"Categories not in expected order: {slugs[:7]}"
+
+        cat_map = {c["slug"]: c["product_count"] for c in cats}
+        assert cat_map["clothing"] >= 2
+        assert cat_map["shoes"] >= 1
+        assert cat_map["watches"] >= 1
+
+        print(f"[OK] Categories endpoint returned 7 categories with correct ordering and counts: {cat_map}")
+    finally:
+        _cleanup_browse_fixtures(client)
+
+
+
+# ---------------------------------------------------------------------------
 # Main runner
 # ---------------------------------------------------------------------------
 
@@ -715,6 +985,12 @@ if __name__ == "__main__":
             lambda: test_delete_nonexistent_returns_404(client_instance),
             lambda: test_sony_query_ranks_sony_first(client_instance),
             lambda: test_budget_query_returns_cheap_products(client_instance),
+            lambda: test_browse_products_category_filter(client_instance),
+            lambda: test_browse_products_price_range(client_instance),
+            lambda: test_browse_products_sort_order(client_instance),
+            lambda: test_browse_products_pagination(client_instance),
+            lambda: test_browse_products_q_filter(client_instance),
+            lambda: test_categories_endpoint_counts(client_instance),
         ]
 
         passed = 0

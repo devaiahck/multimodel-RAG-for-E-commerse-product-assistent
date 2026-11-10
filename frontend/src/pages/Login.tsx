@@ -4,6 +4,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import AuthLayout from '../components/layout/AuthLayout'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
+import { useAuthStore } from '../store/auth'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -12,6 +13,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const login = useAuthStore((s) => s.login)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -21,10 +23,20 @@ export default function Login() {
       return
     }
     setLoading(true)
-    // Phase 1: mock – just navigate
-    await new Promise((r) => setTimeout(r, 600))
-    setLoading(false)
-    navigate('/')
+    try {
+      await login(email, password)
+      navigate('/')
+    } catch (err: any) {
+      if (err?.kind === 'rate_limit') {
+        setError('Too many failed attempts. Please wait 15 minutes before trying again.')
+      } else if (err?.status === 400 || err?.kind === 'bad_request') {
+        setError(err.message || 'Incorrect email or password.')
+      } else {
+        setError(err?.message || 'Unable to sign in. Please try again.')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -33,10 +45,10 @@ export default function Login() {
       <h1
         className="font-display"
         style={{
-          color: '#ffffff',
-          fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
+          color: 'var(--on-dark)',
+          fontSize: '1.75rem',
           fontWeight: 400,
-          marginBottom: '1.75rem',
+          marginBottom: '1.25rem',
           textAlign: 'center',
         }}
       >
@@ -46,13 +58,14 @@ export default function Login() {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
+        style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
         noValidate
       >
         <Input
           id="login-email"
-          label="EMAIL"
+          label="EMAIL ADDRESS"
           type="email"
+          placeholder="name@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
@@ -66,6 +79,7 @@ export default function Login() {
             id="login-password"
             label="PASSWORD"
             type={showPassword ? 'text' : 'password'}
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
@@ -84,11 +98,14 @@ export default function Login() {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--on-dark-muted)',
-              padding: '2px',
+              color: '#a1a1aa',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            {showPassword ? <EyeOff size={15} strokeWidth={1.5} /> : <Eye size={15} strokeWidth={1.5} />}
+            {showPassword ? <EyeOff size={18} strokeWidth={1.5} /> : <Eye size={18} strokeWidth={1.5} />}
           </button>
         </div>
 
@@ -104,11 +121,9 @@ export default function Login() {
           fullWidth
           disabled={loading}
           style={{
-            marginTop: '8px',
+            marginTop: '4px',
             letterSpacing: '0.12em',
-            minHeight: 48,
-            backgroundColor: 'var(--champagne)',
-            color: '#000000',
+            minHeight: 44,
           }}
         >
           {loading ? 'Signing in…' : 'SIGN IN'}
@@ -120,13 +135,13 @@ export default function Login() {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          marginTop: '1.25rem',
+          marginTop: '1rem',
         }}
       >
         <Link
           to="/forgot-password"
           style={{ color: 'var(--on-dark-muted)', fontSize: '0.78rem', textDecoration: 'none' }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--on-dark)')}
           onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--on-dark-muted)')}
         >
           Forgot password?
@@ -137,7 +152,7 @@ export default function Login() {
           onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--champagne-hover)')}
           onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--champagne)')}
         >
-          Create account
+          Don't have an account? Sign up
         </Link>
       </div>
     </AuthLayout>

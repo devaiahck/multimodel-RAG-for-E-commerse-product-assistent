@@ -1,27 +1,37 @@
 # Backend Gaps — Endpoints needed by the frontend
 
-These endpoints do not exist yet. The frontend works around them (mock data / localStorage) for now. Implement them before removing the mocks.
+These endpoints were identified during Phase 1 frontend build. Items marked ✅ are implemented.
+The frontend works around the rest with mock data / localStorage. Implement them before removing the mocks.
 
 ## Priority order
 
-### 1. Product browsing
+### ~~1. Product browsing~~ ✅ Implemented
+
 ```
 GET /api/v1/products
   ?category=clothing
   &q=linen+shirt
   &min_price=500
   &max_price=5000
-  &sort=price_asc|price_desc|rating|newest
-  &limit=20
+  &sort=price_asc|price_desc|rating|newest|discount
+  &limit=20   (max 100)
   &offset=0
 ```
+
+Returns `{ items: [...], total, limit, offset }`. Filters and sorts in Python from the Chroma
+collection; rate-limited. Added in `backend/main.py` — **does not conflict** with
+`/api/v1/products/{product_id}`.
+
 **Why:** Home page, category pages, and "Load more" use `POST /search` as a workaround (searching with category name as `text_prompt`). A real list/browse endpoint avoids the embedding round-trip and supports true pagination.
 
-### 2. Category list
+### ~~2. Category list~~ ✅ Implemented
+
 ```
 GET /api/v1/categories
 ```
-Returns: `[{ slug, label, product_count }]`. Currently hard-coded in the frontend.
+
+Returns `[{ slug, label, product_count }]` sorted by fixed order (Clothing, Shoes, Watches,
+Electronics, Home, Beauty, Sports) then alphabetically. Added in `backend/main.py`.
 
 ### 3. Server-side price insight
 ```

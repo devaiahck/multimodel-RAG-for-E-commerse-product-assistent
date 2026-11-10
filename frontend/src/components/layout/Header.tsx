@@ -15,6 +15,8 @@ import {
   MoreHorizontal,
 } from 'lucide-react'
 import MobileDrawer from './MobileDrawer'
+import { useCartStore } from '../../store/cart'
+import { useAuthStore } from '../../store/auth'
 
 const NAV_LINKS = [
   { label: 'Clothing', href: '/category/clothing', Icon: Shirt },
@@ -32,6 +34,8 @@ export default function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const megaRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const cartCount = useCartStore((s) => s.items.reduce((sum, item) => sum + item.qty, 0))
+  const { user, logout } = useAuthStore()
 
   /* close mega menu when clicking outside */
   useEffect(() => {
@@ -210,49 +214,99 @@ export default function Header() {
               <Search size={18} strokeWidth={1.5} />
             </button>
 
-            {/* Sign in */}
-            <Link
-              to="/login"
-              style={{
-                color: 'var(--on-dark-muted)',
-                textDecoration: 'none',
-                fontSize: '0.8rem',
-                fontWeight: 500,
-                padding: '6px 10px',
-                transition: `color var(--dur-fast)`,
-              }}
-              className="hidden sm:block"
-              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--on-dark)')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--on-dark-muted)')}
-            >
-              Sign in
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  to="/account"
+                  style={{
+                    color: 'var(--on-dark)',
+                    textDecoration: 'none',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    padding: '6px 10px',
+                    transition: `color var(--dur-fast)`,
+                  }}
+                  className="hidden sm:block"
+                >
+                  {user.name && user.name.length > 15 ? `${user.name.slice(0, 14)}…` : user.name || 'Account'}
+                </Link>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await logout()
+                    navigate('/')
+                  }}
+                  style={{
+                    background: 'none',
+                    border: '1px solid var(--border-dark)',
+                    borderRadius: 'var(--r-pill)',
+                    cursor: 'pointer',
+                    color: 'var(--on-dark-muted)',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    padding: '6px 12px',
+                    transition: `color var(--dur-fast), border-color var(--dur-fast)`,
+                  }}
+                  className="hidden sm:block"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'var(--on-dark)'
+                    e.currentTarget.style.borderColor = 'var(--on-dark)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--on-dark-muted)'
+                    e.currentTarget.style.borderColor = 'var(--border-dark)'
+                  }}
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Sign in */}
+                <Link
+                  to="/login"
+                  style={{
+                    color: 'var(--on-dark-muted)',
+                    textDecoration: 'none',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    padding: '6px 10px',
+                    transition: `color var(--dur-fast)`,
+                  }}
+                  className="hidden sm:block"
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--on-dark)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--on-dark-muted)')}
+                >
+                  Sign in
+                </Link>
 
-            {/* Sign up pill */}
-            <Link
-              to="/signup"
-              style={{
-                backgroundColor: 'var(--champagne)',
-                color: '#000000',
-                textDecoration: 'none',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                padding: '7px 14px',
-                borderRadius: 'var(--r-pill)',
-                transition: `background-color var(--dur-fast)`,
-                letterSpacing: '0.04em',
-              }}
-              className="hidden sm:block"
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--champagne-hover)')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--champagne)')}
-            >
-              Sign up
-            </Link>
+                {/* Sign up pill */}
+                <Link
+                  to="/signup"
+                  style={{
+                    backgroundColor: 'var(--champagne)',
+                    color: '#000000',
+                    textDecoration: 'none',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    padding: '7px 14px',
+                    borderRadius: 'var(--r-pill)',
+                    transition: `background-color var(--dur-fast)`,
+                    letterSpacing: '0.04em',
+                  }}
+                  className="hidden sm:block"
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--champagne-hover)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--champagne)')}
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
 
             {/* Cart */}
             <Link
               to="/cart"
-              aria-label="Cart (0 items)"
+              aria-label={`Cart (${cartCount} items)`}
               style={{
                 color: 'var(--on-dark-muted)',
                 display: 'flex',
@@ -262,6 +316,29 @@ export default function Header() {
               }}
             >
               <ShoppingCart size={18} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '2px',
+                    right: '2px',
+                    backgroundColor: 'var(--champagne)',
+                    color: '#000000',
+                    fontSize: '0.62rem',
+                    fontWeight: 700,
+                    minWidth: '16px',
+                    height: '16px',
+                    borderRadius: 'var(--r-pill)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0 4px',
+                    lineHeight: 1,
+                  }}
+                >
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
             </Link>
 
             {/* Hamburger – mobile ONLY (hidden on lg+) */}

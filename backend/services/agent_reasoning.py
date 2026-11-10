@@ -159,7 +159,7 @@ async def _ollama_response(
         "JSON RESPONSE:"
     )
     try:
-        raw = await ollama_generate(prompt=prompt, system=SYSTEM_INSTRUCTIONS)
+        raw = await ollama_generate(prompt=prompt, system=SYSTEM_INSTRUCTIONS, timeout=5)
         return _parse_llm_json(raw)
     except Exception as exc:
         logger.warning("Ollama generation/parsing failed: %s", exc)

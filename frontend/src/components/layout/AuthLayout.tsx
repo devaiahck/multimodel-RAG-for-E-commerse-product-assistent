@@ -55,10 +55,12 @@ export default function AuthLayout({ children }: Props) {
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: 440,
+          maxWidth: 420,
           backgroundColor: 'var(--ink-800)',
-          borderRadius: '20px',
-          padding: 'clamp(1.5rem, 4vw, 2.5rem)',
+          border: '1px solid var(--border-dark)',
+          boxShadow: '0 20px 40px -15px rgba(0,0,0,0.7)',
+          borderRadius: 'var(--r-lg)',
+          padding: '28px 24px',
           zIndex: 1,
         }}
       >

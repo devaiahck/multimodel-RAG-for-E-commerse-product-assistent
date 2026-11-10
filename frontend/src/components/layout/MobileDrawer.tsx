@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { X } from 'lucide-react'
+import { X, User as UserIcon, LogOut } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useAuthStore } from '../../store/auth'
 
 interface NavLink {
   label: string
@@ -17,6 +18,7 @@ interface Props {
 
 export default function MobileDrawer({ open, onClose, links }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null)
+  const { user, logout } = useAuthStore()
 
   /* trap focus and close on Escape */
   useEffect(() => {
@@ -117,41 +119,92 @@ export default function MobileDrawer({ open, onClose, links }: Props) {
         </nav>
 
         {/* Auth links */}
-        <div style={{ marginTop: 'auto', paddingTop: '2rem', display: 'flex', gap: '1rem' }}>
-          <Link
-            to="/login"
-            onClick={onClose}
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              padding: '10px',
-              borderRadius: 'var(--r-pill)',
-              border: '1px solid var(--ink-500)',
-              color: 'var(--on-dark)',
-              textDecoration: 'none',
-              fontSize: '0.85rem',
-              fontWeight: 500,
-            }}
-          >
-            Sign in
-          </Link>
-          <Link
-            to="/signup"
-            onClick={onClose}
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              padding: '10px',
-              borderRadius: 'var(--r-pill)',
-              backgroundColor: 'var(--champagne)',
-              color: 'var(--ink-900)',
-              textDecoration: 'none',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-            }}
-          >
-            Sign up
-          </Link>
+        <div style={{ marginTop: 'auto', paddingTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {user ? (
+            <>
+              <Link
+                to="/account"
+                onClick={onClose}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '10px',
+                  borderRadius: 'var(--r-pill)',
+                  backgroundColor: 'var(--champagne)',
+                  color: 'var(--ink-900)',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                }}
+              >
+                <UserIcon size={16} />
+                <span>{user.name || 'Account'}</span>
+              </Link>
+              <button
+                type="button"
+                onClick={async () => {
+                  await logout()
+                  onClose()
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '10px',
+                  borderRadius: 'var(--r-pill)',
+                  border: '1px solid var(--ink-500)',
+                  background: 'none',
+                  color: 'var(--on-dark-muted)',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem',
+                  fontWeight: 500,
+                }}
+              >
+                <LogOut size={16} />
+                <span>Sign out</span>
+              </button>
+            </>
+          ) : (
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Link
+                to="/login"
+                onClick={onClose}
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  padding: '10px',
+                  borderRadius: 'var(--r-pill)',
+                  border: '1px solid var(--ink-500)',
+                  color: 'var(--on-dark)',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  fontWeight: 500,
+                }}
+              >
+                Sign in
+              </Link>
+              <Link
+                to="/signup"
+                onClick={onClose}
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  padding: '10px',
+                  borderRadius: 'var(--r-pill)',
+                  backgroundColor: 'var(--champagne)',
+                  color: 'var(--ink-900)',
+                  textDecoration: 'none',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                }}
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>

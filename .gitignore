@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+venv/
+.venv/
+backend/venv/
+__pycache__/
+*.pyc
+
+# Builds
+dist/
+frontend/dist/
+build/
+
+# Static images
+backend/static/images/
+/backend/static/images/
+
+# Local databases & env
+backend/chroma_db/
+chroma_db/
+backend/data/*.db
+backend/data/alerts.db
+backend/data/users.db
+backend/data/sent_notifications.log
+.env
+.env.local
+*.log
+
+# Scratch / dev scripts
+scratch/
+backend/scratch_step8.py

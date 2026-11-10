@@ -74,6 +74,10 @@ class ProductIngestSchema(BaseModel):
         default=None,
         description="Main product image URL (optional; image download is best-effort)",
     )
+    image_credit: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Optional image attribution/credit details (e.g. source, photographer)",
+    )
 
     # ── Pricing ─────────────────────────────────────────────────────────────
 
@@ -181,3 +185,275 @@ class SearchResponseSchema(BaseModel):
         default="text",
         description="Search modality: 'text', 'image', or 'multimodal'",
     )
+
+
+# ---------------------------------------------------------------------------
+# Browse & Category Schemas
+# ---------------------------------------------------------------------------
+
+
+class ProductListResponseSchema(BaseModel):
+    items: List[Dict[str, Any]] = Field(..., description="Paginated list of product items")
+    total: int = Field(..., description="Total count matching filters before pagination")
+    limit: int = Field(..., description="Limit of items returned")
+    offset: int = Field(..., description="Offset used for pagination")
+
+
+class CategoryItemSchema(BaseModel):
+    slug: str = Field(..., description="Category slug in lowercase (e.g. 'clothing')")
+    label: str = Field(..., description="Category display label (e.g. 'Clothing')")
+    product_count: int = Field(..., description="Number of products in this category")
+
+
+# ---------------------------------------------------------------------------
+# Alert & Notification Schemas
+# ---------------------------------------------------------------------------
+
+
+class CreateAlertSchema(BaseModel):
+    user_email: Optional[str] = Field(None, description="User's email address (optional, derived from session)")
+    product_id: str = Field(..., description="Product ID to watch")
+    target_price: Optional[float] = Field(None, ge=0, description="Target price threshold")
+    notify_on_good_time: bool = Field(True, description="Notify when Buy Score is good (>= 70)")
+    channel: str = Field("email", description="Channel: 'sms', 'telegram', or 'email'")
+    destination: str = Field(..., description="Destination: phone number, telegram chat ID, or email")
+
+    @field_validator("channel")
+    @classmethod
+    def validate_channel(cls, v: str) -> str:
+        chan = v.strip().lower()
+        if chan not in ("sms", "telegram", "email"):
+            raise ValueError("Channel must be 'sms', 'telegram', or 'email'.")
+        return chan
+
+    @field_validator("user_email", "product_id", "destination")
+    @classmethod
+    def validate_non_empty(cls, v: str, info) -> str:
+        return _reject_placeholder(v, info.field_name)
+
+    @model_validator(mode="after")
+    def validate_trigger(self) -> "CreateAlertSchema":
+        if self.target_price is None and not self.notify_on_good_time:
+            raise ValueError("At least one trigger must be set: target_price or notify_on_good_time.")
+        return self
+
+
+class SendPhoneOtpSchema(BaseModel):
+    phone: str = Field(..., description="Mobile phone number with country code")
+
+    @field_validator("phone")
+    @classmethod
+    def validate_phone(cls, v: str) -> str:
+        return _reject_placeholder(v, "phone")
+
+
+class VerifyPhoneOtpSchema(BaseModel):
+    phone: str = Field(..., description="Mobile phone number")
+    code: str = Field(..., min_length=6, max_length=6, description="6-digit verification code")
+
+    @field_validator("phone", "code")
+    @classmethod
+    def validate_inputs(cls, v: str, info) -> str:
+        return _reject_placeholder(v, info.field_name)
+
+
+class SimulatePriceDropSchema(BaseModel):
+    product_id: str = Field(..., description="Product ID to simulate price drop for")
+    new_price: float = Field(..., ge=0, description="New lower simulated price")
+
+
+# ---------------------------------------------------------------------------
+# Shopping Assistant Schemas
+# ---------------------------------------------------------------------------
+
+
+class ChatMessage(BaseModel):
+    role: str = Field(..., description="Role of the speaker: 'user' or 'assistant'")
+    content: str = Field(..., min_length=1, description="Message text content")
+
+    @field_validator("role")
+    @classmethod
+    def validate_role(cls, v: str) -> str:
+        clean = v.strip().lower()
+        if clean not in ("user", "assistant"):
+            raise ValueError("Role must be either 'user' or 'assistant'.")
+        return clean
+
+
+class AssistantChatRequest(BaseModel):
+    message: str = Field(..., min_length=1, description="User's natural language question")
+    history: Optional[List[ChatMessage]] = Field(
+        default=None,
+        description="Optional conversation history (up to last 6 turns)",
+    )
+
+
+class AssistantChatResponse(BaseModel):
+    answer: str = Field(..., description="Assistant answer")
+    products: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Recommended products (max 5)",
+    )
+    filters_used: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Extracted query filters",
+    )
+    grounded: bool = Field(
+        default=True,
+        description="Whether the response is strictly grounded in catalog data",
+    )
+
+
+# ---------------------------------------------------------------------------
+# Budget Planner Schemas
+# ---------------------------------------------------------------------------
+
+class BudgetPlanRequest(BaseModel):
+    budget: float = Field(
+        ...,
+        ge=100.0,
+        le=10000000.0,
+        description="Target budget in INR (100 to 10,000,000)",
+    )
+    categories: Optional[List[str]] = Field(
+        default=None,
+        description="Optional list of top-level categories (empty means all)",
+    )
+    mode: str = Field(
+        default="mix",
+        description="Planning mode: 'single' (best buy) or 'mix' (basket)",
+    )
+
+    @field_validator("mode")
+    @classmethod
+    def validate_mode(cls, v: str) -> str:
+        clean = str(v).strip().lower()
+        if clean not in ("single", "mix"):
+            raise ValueError("mode must be 'single' or 'mix'.")
+        return clean
+
+
+class BudgetPlanDetails(BaseModel):
+    items: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Recommended products in the plan with price, buy score, and why string",
+    )
+    total: float = Field(
+        default=0.0,
+        description="Total cost of items in the plan",
+    )
+    remaining: float = Field(
+        default=0.0,
+        description="Remaining unused budget",
+    )
+
+
+class BudgetPlanResponse(BaseModel):
+    budget: float
+    mode: str
+    plan: BudgetPlanDetails
+    buy_now: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Top products with buy_score >= 70 outside the plan",
+    )
+    wait: List[Dict[str, Any]] = Field(
+        default_factory=list,
+        description="Top products with buy_score < 40 to hold off on",
+    )
+    message: Optional[str] = Field(
+        default=None,
+        description="Optional explanatory message when no items fit",
+    )
+
+
+
+
+
+# ---------------------------------------------------------------------------
+# Auth and User Data Schemas
+# ---------------------------------------------------------------------------
+
+class UserSchema(BaseModel):
+    id: str
+    name: str
+    email: str
+    created_at: str
+
+
+class UserResponseSchema(BaseModel):
+    user: UserSchema
+
+
+class SignUpRequest(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
+    email: str = Field(..., min_length=3, max_length=255)
+    password: str = Field(..., min_length=8, max_length=128)
+
+    @field_validator("email")
+    @classmethod
+    def validate_email_format(cls, v: str) -> str:
+        clean = v.strip().lower()
+        if "@" not in clean or "." not in clean.split("@")[-1]:
+            raise ValueError("Invalid email format.")
+        return clean
+
+
+class LoginRequest(BaseModel):
+    email: str = Field(..., min_length=3, max_length=255)
+    password: str = Field(..., min_length=1, max_length=128)
+
+    @field_validator("email")
+    @classmethod
+    def validate_email_format(cls, v: str) -> str:
+        clean = v.strip().lower()
+        if "@" not in clean or "." not in clean.split("@")[-1]:
+            raise ValueError("Invalid email format.")
+        return clean
+
+
+class ChangePasswordRequest(BaseModel):
+    old_password: str = Field(..., min_length=1, max_length=128)
+    new_password: str = Field(..., min_length=8, max_length=128)
+
+
+class DeleteAccountRequest(BaseModel):
+    password: str = Field(..., min_length=1, max_length=128)
+
+
+class CartItemPayload(BaseModel):
+    product_id: str = Field(..., min_length=1)
+    quantity: int = Field(..., ge=0)
+
+
+class SavedItemPayload(BaseModel):
+    product_id: str = Field(..., min_length=1)
+
+
+class HistoryItemPayload(BaseModel):
+    product_id: str = Field(..., min_length=1)
+    store: Optional[str] = None
+    ts: Optional[str] = None
+
+
+class ActivityEventPayload(BaseModel):
+    type: str = Field(..., min_length=1)
+    product_id: Optional[str] = None
+    category: Optional[str] = None
+    brand: Optional[str] = None
+    query: Optional[str] = None
+    price: Optional[float] = None
+    ts: Optional[str] = None
+
+
+class PreferencesSchema(BaseModel):
+    favorite_categories: List[str] = Field(default_factory=list)
+    budget_min: Optional[float] = None
+    budget_max: Optional[float] = None
+    personalization_paused: bool = False
+
+
+class PreferencesUpdatePayload(BaseModel):
+    favorite_categories: Optional[List[str]] = None
+    budget_min: Optional[float] = None
+    budget_max: Optional[float] = None
+    personalization_paused: Optional[bool] = None

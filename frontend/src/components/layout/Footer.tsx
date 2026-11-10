@@ -5,6 +5,7 @@ const SHOP_LINKS = [
   { label: 'Shoes', href: '/category/shoes' },
   { label: 'Watches', href: '/category/watches' },
   { label: 'Price history', href: '/insights' },
+  { label: 'Budget planner', href: '/budget' },
   { label: "It's on sale", href: '/search?q=sale' },
 ]
 
@@ -23,6 +24,8 @@ const COMPANY_LINKS = [
 ]
 
 export default function Footer() {
+  const isDemoData = import.meta.env.VITE_DEMO_DATA !== 'false'
+
   return (
     <footer
       style={{
@@ -57,8 +60,13 @@ export default function Footer() {
               URBANPICK
             </Link>
             <p style={{ fontSize: '0.8rem', lineHeight: 1.7, maxWidth: 240, color: 'var(--on-dark-secondary)' }}>
-              Every market, one smart search.
+              UrbanPick helps you discover products with verified price confidence.
             </p>
+            {isDemoData && (
+              <p style={{ fontSize: '0.72rem', color: 'var(--champagne)', marginTop: '8px' }}>
+                Prices and price history shown are demo data.
+              </p>
+            )}
           </div>
 
           {/* Shop */}
@@ -159,12 +167,31 @@ export default function Footer() {
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
-            gap: '0.5rem',
+            gap: '0.75rem',
           }}
         >
-          <p style={{ fontSize: '0.72rem', color: 'var(--on-dark-muted)' }}>
-            © UrbanPick
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+            <p style={{ fontSize: '0.72rem', color: 'var(--on-dark-muted)' }}>
+              © UrbanPick
+            </p>
+            <p style={{ fontSize: '0.72rem', color: 'var(--on-dark-muted)' }}>
+              Photos by{' '}
+              <a
+                href="https://www.pexels.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: 'var(--champagne)',
+                  textDecoration: 'none',
+                  fontWeight: 500,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--champagne-hover)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--champagne)')}
+              >
+                Pexels
+              </a>
+            </p>
+          </div>
           <p style={{ fontSize: '0.72rem', color: 'var(--on-dark-muted)', maxWidth: 480, textAlign: 'right' }}>
             UrbanPick doesn't sell products. We compare and link to stores. Prices and availability may vary.
           </p>

@@ -1,0 +1,702 @@
+[
+  {
+    "product_id": "elec-apple-iphone-15-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-iphone-16-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-s24-5g-8gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-s24-fe-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-m35-5g-6gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-12-5g-12gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-nord-ce4-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-nord-4-5g-8gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-redmi-note-13-pro-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-redmi-note-13-5g-6gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-realme-narzo-70-pro-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-google-pixel-8a-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-nothing-phone-2a-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-motorola-edge-50-fusion-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-motorola-g84-5g-12gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-iqoo-z9-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-poco-x6-pro-5g-8gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-airpods-pro-2nd-generation-with-magsafe-case-usb-c",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-airpods-3rd-generation",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sony-wh-1000xm5-wireless-noise-cancelling-headphones",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sony-wh-1000xm4-wireless-noise-cancelling-headphones",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sony-wf-1000xm5-truly-wireless-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-bose-quietcomfort-headphones",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-jbl-tune-770nc-wireless-over-ear-headphones",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-jbl-tune-230nc-tws-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-boat-airdopes-141-tws-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-boat-rockerz-450-bluetooth-on-ear-headphones",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-boat-immortal-121-gaming-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-noise-buds-vs104-tws-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-buds-3-tws-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-nord-buds-2-tws-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-nothing-ear-a-tws-earbuds",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-buds2-pro",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sennheiser-momentum-4-wireless-headphones",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-macbook-air-13-inch-m2-8gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-macbook-air-13-inch-m3-8gb-256gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-hp-15s-intel-core-i5-12th-gen-16gb-512gb-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-hp-pavilion-14-intel-core-i5-13th-gen-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-lenovo-ideapad-slim-3-intel-core-i3-12th-gen-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-lenovo-loq-intel-core-i5-12th-gen-rtx-3050-gaming-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-dell-inspiron-15-intel-core-i5-13th-gen-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-dell-14-intel-core-i3-13th-gen-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-asus-vivobook-15-intel-core-i5-12th-gen-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-asus-tuf-gaming-f15-intel-core-i5-rtx-3050-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-acer-aspire-5-intel-core-i5-12th-gen-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-acer-nitro-v-intel-core-i5-13th-gen-rtx-4050-gaming-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-book3-intel-core-i5-laptop",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-ipad-10th-generation-64gb-wifi",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-ipad-air-11-inch-m2-128gb-wifi",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-tab-s9-fe-6gb-128gb-wifi",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-galaxy-tab-a9-5g-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-redmi-pad-se-4gb-128gb-wifi",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-pad-8gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-lenovo-tab-m10-plus-3rd-gen-4gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-realme-pad-2-wi-fi-6gb-128gb",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-43-inch-crystal-4k-vision-pro-smart-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-55-inch-crystal-4k-vision-pro-smart-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-lg-43-inch-4k-uhd-smart-webos-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sony-bravia-43-inch-4k-ultra-hd-smart-google-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-redmi-43-inch-fire-tv-4k-smart-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-tcl-55-inch-4k-qled-google-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-hisense-43-inch-4k-uhd-smart-vidaa-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-oneplus-43-inch-y1s-pro-4k-google-tv",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-jbl-flip-6-portable-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-jbl-go-3-portable-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sony-srs-xb100-wireless-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-marshall-emberton-ii-portable-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-boat-stone-352-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-amazon-echo-dot-5th-gen-smart-speaker-with-alexa",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-bose-soundlink-flex-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-anker-soundcore-2-portable-bluetooth-speaker",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-mi-power-bank-3i-20000mah",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-anker-powercore-10000mah-power-bank",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-ambrane-20000mah-power-bank-22-5w",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-realme-power-bank-2-10000mah",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-apple-20w-usb-c-power-adapter",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-25w-usb-type-c-super-fast-charger",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-anker-735-nano-ii-65w-gan-charger",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-portronics-power-brick-10000mah-wireless-power-bank",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-logitech-mx-master-3s-wireless-mouse",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-logitech-m235-wireless-mouse",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-logitech-g102-lightsync-gaming-mouse",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-logitech-k380-multi-device-bluetooth-keyboard",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-keychron-k2-wireless-mechanical-keyboard",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-hp-330-wireless-keyboard-and-mouse-combo",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-zebronics-zeb-transformer-gaming-keyboard-and-mouse-combo",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-logitech-c270-hd-webcam",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-ant-esports-mk1000-mechanical-gaming-keyboard",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-lg-24-inch-full-hd-ips-monitor-24mp400",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-dell-24-inch-full-hd-monitor-s2425h",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-27-inch-odyssey-g3-gaming-monitor",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-benq-gw2480-24-inch-eye-care-monitor",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-samsung-t7-portable-ssd-1tb",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sandisk-ultra-128gb-microsd-card",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-wd-elements-2tb-portable-hard-drive",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-sandisk-ultra-dual-drive-go-128gb-pen-drive",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-amazon-fire-tv-stick-4k",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-mi-tv-stick-1080p",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-gopro-hero12-black-action-camera",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "elec-canon-eos-1500d-dslr-camera-with-18-55mm-lens",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  }
+]

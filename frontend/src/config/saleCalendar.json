@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Diwali Mega Sale",
+    "year": 2026,
+    "start": "2026-10-15",
+    "end": "2026-11-02",
+    "approximate": true,
+    "note": "EDIT THESE DATES - Placeholder dates for past festival sale matching demo history"
+  },
+  {
+    "name": "Black Friday Sale",
+    "year": 2026,
+    "start": "2026-11-27",
+    "end": "2026-11-30",
+    "approximate": true,
+    "note": "EDIT THESE DATES - Placeholder dates for upcoming shopping event"
+  },
+  {
+    "name": "Year-End Clearance Sale",
+    "year": 2026,
+    "start": "2026-12-25",
+    "end": "2026-12-31",
+    "approximate": true,
+    "note": "EDIT THESE DATES - Placeholder dates for year-end inventory clearance"
+  }
+]
+

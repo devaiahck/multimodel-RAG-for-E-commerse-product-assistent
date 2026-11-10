@@ -1,0 +1,702 @@
+[
+  {
+    "product_id": "watch-casio-f-91w-1-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-a158wa-1df-vintage-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-ae-1200wh-1a-digital-world-time-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-w-218h-1avdf-youth-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-mq-24-7b-analog-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-mtp-1374d-1a-enticer-analog-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-mtp-v002d-1b-analog-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-mdv-106-1a-duro-diver-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-edifice-efr-556db-1a-chronograph",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-vintage-a168wg-9-gold-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-mrw-200h-1b-analog-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-casio-illuminator-w-800h-1av-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-ga-2100-1a1-casioak",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-dw-5600e-1v-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-ga-110-1b-analog-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-gm-2100-1a-metal-covered-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-gbd-800-1-bluetooth-step-tracker",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-dw-6900-1v-classic-digital",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-ga-700-1b-analog-digital-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-g-shock-awg-m100-1a-solar-analog-digital",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-neo-analog-black-dial-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-edge-ultra-slim-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-raga-women-s-rose-gold-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-karishma-men-s-analog-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-octane-chronograph-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-nebula-gold-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-regalia-women-s-analog-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-smart-3-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-titan-edge-ceramic-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fastrack-reflex-vox-fitness-band",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fastrack-revoltt-fs1-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fastrack-limitless-fs1-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fastrack-analog-black-dial-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fastrack-women-s-analog-pink-dial-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-sonata-classic-analog-black-dial-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-sonata-women-s-analog-rose-gold-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fossil-grant-chronograph-leather-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fossil-neutra-chronograph-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fossil-jacqueline-women-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fossil-carlyle-gen-6-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fossil-machine-chronograph-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-timex-weekender-analog-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-timex-expedition-scout-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-timex-easy-reader-classic-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-timex-marlin-hand-wound-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-daniel-wellington-classic-petite-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-daniel-wellington-iconic-link-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-mvmt-chrono-men-s-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-armani-exchange-hampton-chronograph-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-michael-kors-lexington-chronograph-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-police-rebel-analog-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-skagen-signatur-slim-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-seiko-5-snk809k2-automatic-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-seiko-5-sports-srpd55k1-automatic-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-seiko-presage-cocktail-time-srpb41-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-seiko-prospex-turtle-srpe93k1-automatic-diver",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-citizen-eco-drive-bm8180-03e-military-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-citizen-promaster-diver-ny0040-automatic",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-citizen-eco-drive-chandler-bm7251-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-orient-bambino-version-2-automatic-dress-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-orient-kamasu-automatic-diver-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-orient-star-classic-automatic-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-tissot-prx-powermatic-80-automatic-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-tissot-prx-quartz-35mm-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-tissot-gentleman-powermatic-80-silicium-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-tissot-le-locle-powermatic-80-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-hamilton-khaki-field-mechanical-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-hamilton-jazzmaster-auto-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-hamilton-khaki-aviation-pilot-day-date",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-swatch-big-bold-chrono-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-apple-watch-se-2nd-gen-gps-40mm",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-apple-watch-series-9-gps-41mm",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-apple-watch-series-10-gps-42mm",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-apple-watch-ultra-2-gps-cellular-49mm",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-samsung-galaxy-watch6-bluetooth-44mm",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-samsung-galaxy-watch6-classic-47mm",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-samsung-galaxy-watch-fe-40mm",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-samsung-galaxy-watch4-classic-46mm",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-google-pixel-watch-2-wifi",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-forerunner-55-gps-running-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-forerunner-165-running-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-forerunner-255-music-gps-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-venu-3-amoled-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-instinct-2-rugged-gps-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-vivoactive-5-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-garmin-fenix-7-solar-multisport-gps-watch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-noise-colorfit-pro-4-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-noise-pulse-2-max-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-noise-colorfit-ultra-3-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-noise-luna-ring-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-boat-wave-call-2-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-boat-xtend-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-boat-lunar-connect-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-boat-ultima-prime-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fire-boltt-ninja-call-pro-plus-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_down",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fire-boltt-phoenix-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "trend_up",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-fire-boltt-cobra-rugged-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "stable",
+    "expected_verdict": "neutral",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-amazfit-bip-5-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "recent_drop",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-amazfit-gtr-4-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "spike",
+    "expected_verdict": "wait",
+    "url_type": "search_link"
+  },
+  {
+    "product_id": "watch-amazfit-gts-4-mini-smartwatch",
+    "is_synthetic_price_history": true,
+    "pattern": "sale_cycle",
+    "expected_verdict": "buy_now",
+    "url_type": "search_link"
+  }
+]

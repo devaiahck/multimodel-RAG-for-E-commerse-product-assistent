@@ -12,11 +12,27 @@ export interface Product {
   discount_percentage?: number
   rating?: number
   image_url?: string
-  specs?: Record<string, string>
+  image_credit?: {
+    source?: string
+    photographer?: string
+    photo_page?: string
+  }
+  specs?: string | Record<string, string>
+  availability?: string
   /** Raw JSON string or parsed list */
   store_availability?: string | StoreLink[]
   /** Raw JSON string or parsed list */
   price_history?: string | PricePoint[]
+  similarity?: number
+  buy_score?: number
+  buy_score_label?: string
+  real_discount?: {
+    claimed_pct?: number
+    real_pct?: number
+    typical_price?: number
+    gap?: number
+    verdict?: string
+  }
 }
 
 export interface StoreLink {
@@ -45,6 +61,13 @@ export interface SearchResponse {
   comparison_table: Record<string, unknown>[]
   total_results: number
   search_type: 'text' | 'image' | 'multimodal'
+}
+
+export interface ProductListResponse {
+  items: Product[]
+  total: number
+  limit: number
+  offset: number
 }
 
 export interface HealthResponse {

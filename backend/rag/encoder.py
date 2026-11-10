@@ -42,23 +42,32 @@ class MultimodalEncoder:
 
     def _load_model(self) -> None:
         """Loads processor and model from Hugging Face, with fallback support."""
-        try:
-            logger.info(f"Loading multimodal model '{self.model_name}' on device '{self.device}'...")
-            self.processor = AutoProcessor.from_pretrained(self.model_name)
-            self.model = AutoModel.from_pretrained(self.model_name).to(self.device)
-            self.model.eval()
-            logger.info(f"Successfully loaded model '{self.model_name}'.")
-        except Exception as err:
-            logger.warning(f"Failed to load primary model '{self.model_name}': {err}. Trying fallback '{FALLBACK_MODEL_NAME}'...")
-            try:
-                self.model_name = FALLBACK_MODEL_NAME
-                self.processor = AutoProcessor.from_pretrained(self.model_name)
-                self.model = AutoModel.from_pretrained(self.model_name).to(self.device)
-                self.model.eval()
-                logger.info(f"Successfully loaded fallback model '{self.model_name}'.")
-            except Exception as fallback_err:
-                logger.error(f"Critical error loading model: {fallback_err}")
-                raise RuntimeError(f"Could not initialize MultimodalEncoder: {fallback_err}") from fallback_err
+        for candidate in (self.model_name, FALLBACK_MODEL_NAME):
+            for local_only in (True, False):
+                try:
+                    logger.info(
+                        "Loading multimodal model '%s' on device '%s' (local_files_only=%s)...",
+                        candidate,
+                        self.device,
+                        local_only,
+                    )
+                    self.processor = AutoProcessor.from_pretrained(
+                        candidate, local_files_only=local_only
+                    )
+                    self.model = AutoModel.from_pretrained(
+                        candidate, local_files_only=local_only
+                    ).to(self.device)
+                    self.model.eval()
+                    self.model_name = candidate
+                    logger.info("Successfully loaded model '%s'.", candidate)
+                    return
+                except Exception as err:
+                    if local_only:
+                        continue
+                    logger.warning(
+                        "Failed to load '%s' with remote check: %s.", candidate, err
+                    )
+        raise RuntimeError("Could not initialize MultimodalEncoder with any model candidate.")
 
     def encode_text(self, text: str) -> List[float]:
         """

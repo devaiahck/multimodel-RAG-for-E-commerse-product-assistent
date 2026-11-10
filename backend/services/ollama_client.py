@@ -11,6 +11,8 @@ Usage:
 
 import json
 import logging
+import socket
+import urllib.parse
 from typing import Optional
 
 import httpx
@@ -54,8 +56,20 @@ async def generate_text(
 
     logger.debug("Sending prompt to Ollama model '%s' at %s", model, url)
 
+    # Pre-check TCP socket to fail fast in 0.2s if server is not running
+    parsed = urllib.parse.urlparse(settings.OLLAMA_BASE_URL)
+    host = parsed.hostname or "127.0.0.1"
+    if host == "localhost":
+        host = "127.0.0.1"
+    port = parsed.port or 11434
     try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
+        with socket.create_connection((host, port), timeout=0.2):
+            pass
+    except Exception as sock_err:
+        raise RuntimeError(f"Cannot reach Ollama at {host}:{port}: {sock_err}") from sock_err
+
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(timeout, connect=2.0)) as client:
             response = await client.post(url, json=payload)
             response.raise_for_status()
             data = response.json()
@@ -90,6 +104,19 @@ async def check_ollama_health(model: Optional[str] = None) -> dict:
     result = {"reachable": False, "model_available": False, "error": None}
 
     try:
+        # Pre-check TCP socket to fail fast in 0.2s if server is not running
+        parsed = urllib.parse.urlparse(settings.OLLAMA_BASE_URL)
+        host = parsed.hostname or "127.0.0.1"
+        if host == "localhost":
+            host = "127.0.0.1"
+        port = parsed.port or 11434
+        try:
+            with socket.create_connection((host, port), timeout=0.2):
+                pass
+        except Exception as sock_err:
+            result["error"] = f"Cannot reach Ollama at {host}:{port}: {sock_err}"
+            return result
+
         async with httpx.AsyncClient(timeout=5) as client:
             # List models endpoint
             resp = await client.get(f"{settings.OLLAMA_BASE_URL}/api/tags")

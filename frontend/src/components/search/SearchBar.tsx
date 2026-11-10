@@ -1,38 +1,151 @@
-import { useState, useRef, type KeyboardEvent } from 'react'
+import {
+  useState,
+  useRef,
+  useEffect,
+  type KeyboardEvent,
+  type DragEvent,
+  type ClipboardEvent,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search, Camera, X } from 'lucide-react'
+import { validateImageFile, downscaleImageIfNeeded } from '../../lib/imageUpload'
 
 interface Props {
   dark?: boolean
   placeholder?: string
   initialQuery?: string
+  imageFile?: File | null
+  onImageChange?: (file: File | null) => void
+  onQueryChange?: (query: string) => void
+  onSearchSubmit?: (query: string, file: File | null) => void
 }
 
-export default function SearchBar({ dark = true, placeholder = 'Search the whole market…', initialQuery = '' }: Props) {
-  const [query, setQuery] = useState(initialQuery)
-  const [imageFile, setImageFile] = useState<File | null>(null)
+export default function SearchBar({
+  dark = true,
+  placeholder = 'Search the whole market…',
+  initialQuery = '',
+  imageFile: controlledImageFile,
+  onImageChange,
+  onQueryChange,
+  onSearchSubmit,
+}: Props) {
+  const [internalQuery, setInternalQuery] = useState(initialQuery)
+  const [internalImageFile, setInternalImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [imageError, setImageError] = useState<string>('')
+  const [isProcessingImage, setIsProcessingImage] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
-  function handleImageSelect(file: File) {
-    const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp']
-    if (!allowed.includes(file.type)) return
-    if (file.size > 5 * 1024 * 1024) return
-    setImageFile(file)
-    const url = URL.createObjectURL(file)
+  const currentImage = controlledImageFile !== undefined ? controlledImageFile : internalImageFile
+
+  useEffect(() => {
+    setInternalQuery(initialQuery)
+  }, [initialQuery])
+
+  useEffect(() => {
+    if (!currentImage) {
+      setImagePreview(null)
+      return
+    }
+    const url = URL.createObjectURL(currentImage)
     setImagePreview(url)
+    return () => {
+      URL.revokeObjectURL(url)
+    }
+  }, [currentImage])
+
+  async function handleFileSelected(file: File) {
+    const error = validateImageFile(file)
+    if (error) {
+      setImageError(error)
+      return
+    }
+    setImageError('')
+    setIsProcessingImage(true)
+    try {
+      const downscaled = await downscaleImageIfNeeded(file, 1024)
+      if (onImageChange) {
+        onImageChange(downscaled)
+      } else {
+        setInternalImageFile(downscaled)
+      }
+
+      if (onSearchSubmit) {
+        onSearchSubmit(internalQuery, downscaled)
+      } else {
+        // Navigate to search page with the selected image
+        const params = new URLSearchParams()
+        if (internalQuery.trim()) params.set('q', internalQuery.trim())
+        navigate(`/search?${params}`, { state: { imageFile: downscaled } })
+      }
+    } catch {
+      setImageError('Failed to process image.')
+    } finally {
+      setIsProcessingImage(false)
+    }
+  }
+
+  function handleRemoveImage() {
+    setImageError('')
+    if (onImageChange) {
+      onImageChange(null)
+    } else {
+      setInternalImageFile(null)
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
   }
 
   function handleSearch() {
-    if (!query.trim() && !imageFile) return
-    const params = new URLSearchParams()
-    if (query.trim()) params.set('q', query.trim())
-    navigate(`/search?${params}`)
+    if (!internalQuery.trim() && !currentImage) return
+    if (onSearchSubmit) {
+      onSearchSubmit(internalQuery.trim(), currentImage)
+    } else {
+      const params = new URLSearchParams()
+      if (internalQuery.trim()) params.set('q', internalQuery.trim())
+      navigate(`/search?${params}`, { state: { imageFile: currentImage } })
+    }
   }
 
   function handleKey(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') handleSearch()
+  }
+
+  function handleDragOver(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+  }
+
+  function handleDrop(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault()
+    const file = e.dataTransfer.files?.[0]
+    if (file) {
+      handleFileSelected(file)
+    }
+  }
+
+  function handlePaste(e: ClipboardEvent<HTMLInputElement>) {
+    const file = e.clipboardData.files?.[0]
+    if (file) {
+      e.preventDefault()
+      handleFileSelected(file)
+      return
+    }
+    const items = e.clipboardData.items
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i]
+        if (item.type.startsWith('image/')) {
+          const itemFile = item.getAsFile()
+          if (itemFile) {
+            e.preventDefault()
+            handleFileSelected(itemFile)
+            return
+          }
+        }
+      }
+    }
   }
 
   const bg = dark ? 'var(--ink-700)' : 'var(--card)'
@@ -42,41 +155,61 @@ export default function SearchBar({ dark = true, placeholder = 'Search the whole
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      {/* Image preview */}
-      {imagePreview && (
+      {/* Attached image preview banner if active and not controlled externally */}
+      {imagePreview && controlledImageFile === undefined && (
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            backgroundColor: 'var(--ink-700)',
+            gap: '10px',
+            backgroundColor: dark ? 'var(--ink-800)' : 'var(--tile)',
+            border: `1px solid ${border}`,
             borderRadius: 'var(--r-md)',
             padding: '8px 12px',
           }}
         >
           <img
             src={imagePreview}
-            alt="Search image"
-            style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 'var(--r-sm)' }}
+            alt="Search preview thumbnail"
+            style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 'var(--r-sm)' }}
           />
-          <span style={{ fontSize: '0.8rem', color: 'var(--on-dark-muted)', flex: 1 }}>
-            {imageFile?.name}
-          </span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '0.8rem',
+                color: textColor,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {currentImage?.name}
+            </p>
+          </div>
           <button
-            aria-label="Remove image"
-            onClick={() => {
-              setImageFile(null)
-              setImagePreview(null)
+            type="button"
+            aria-label="Remove selected image"
+            onClick={handleRemoveImage}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: placeholderColor,
+              padding: 4,
+              display: 'flex',
+              alignItems: 'center',
             }}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--on-dark-muted)', padding: 4 }}
           >
-            <X size={14} strokeWidth={1.5} />
+            <X size={16} strokeWidth={1.5} />
           </button>
         </div>
       )}
 
-      {/* Main bar */}
+      {/* Main input bar */}
       <div
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -100,9 +233,13 @@ export default function SearchBar({ dark = true, placeholder = 'Search the whole
 
         <input
           type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={internalQuery}
+          onChange={(e) => {
+            setInternalQuery(e.target.value)
+            onQueryChange?.(e.target.value)
+          }}
           onKeyDown={handleKey}
+          onPaste={handlePaste}
           placeholder={placeholder}
           aria-label="Search products"
           style={{
@@ -117,30 +254,39 @@ export default function SearchBar({ dark = true, placeholder = 'Search the whole
           }}
         />
 
-        {/* Camera button */}
+        {/* Camera / Photo upload button */}
         <button
+          type="button"
           aria-label="Upload an image to search"
+          disabled={isProcessingImage}
           onClick={() => fileInputRef.current?.click()}
           style={{
             background: 'none',
             border: 'none',
-            cursor: 'pointer',
+            cursor: isProcessingImage ? 'wait' : 'pointer',
             padding: '0 12px',
             color: placeholderColor,
             display: 'flex',
             alignItems: 'center',
             minHeight: 44,
-            transition: `color var(--dur-fast)`,
+            transition: 'color var(--dur-fast)',
           }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = dark ? 'var(--on-dark)' : 'var(--text)')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = placeholderColor)}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = dark
+              ? 'var(--on-dark)'
+              : 'var(--text)')
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = placeholderColor)
+          }
         >
           <Camera size={16} strokeWidth={1.5} />
         </button>
 
-        {/* Search button */}
+        {/* Search submit button */}
         <button
-          aria-label="Search"
+          type="button"
+          aria-label="Submit search"
           onClick={handleSearch}
           style={{
             backgroundColor: 'var(--champagne)',
@@ -156,27 +302,48 @@ export default function SearchBar({ dark = true, placeholder = 'Search the whole
             cursor: 'pointer',
             fontFamily: 'Manrope, sans-serif',
             whiteSpace: 'nowrap',
-            transition: `background-color var(--dur-fast)`,
+            transition: 'background-color var(--dur-fast)',
           }}
-          onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--champagne-hover)')}
-          onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--champagne)')}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
+              'var(--champagne-hover)')
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.backgroundColor = 'var(--champagne)')
+          }
         >
           Search
         </button>
       </div>
 
+      {/* Error message */}
+      {imageError && (
+        <p
+          role="alert"
+          style={{
+            margin: 0,
+            padding: '0 18px',
+            fontSize: '0.75rem',
+            color: 'var(--verdict-wait)',
+            fontFamily: 'Manrope, sans-serif',
+          }}
+        >
+          {imageError}
+        </p>
+      )}
+
       {/* Hidden file input */}
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/jpg,image/png,image/webp,image/gif,image/bmp"
+        accept="image/jpeg,image/png,image/webp"
         capture="environment"
         aria-hidden="true"
         tabIndex={-1}
         style={{ display: 'none' }}
         onChange={(e) => {
           const file = e.target.files?.[0]
-          if (file) handleImageSelect(file)
+          if (file) handleFileSelected(file)
           e.target.value = ''
         }}
       />

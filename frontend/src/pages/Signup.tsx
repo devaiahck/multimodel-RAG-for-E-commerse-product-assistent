@@ -4,6 +4,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import AuthLayout from '../components/layout/AuthLayout'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
+import { useAuthStore } from '../store/auth'
 
 export default function Signup() {
   const [name, setName] = useState('')
@@ -14,6 +15,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const signup = useAuthStore((s) => s.signup)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -31,10 +33,20 @@ export default function Signup() {
       return
     }
     setLoading(true)
-    // Phase 1: mock – just navigate
-    await new Promise((r) => setTimeout(r, 700))
-    setLoading(false)
-    navigate('/')
+    try {
+      await signup(name, email, password)
+      navigate('/')
+    } catch (err: any) {
+      if (err?.kind === 'rate_limit') {
+        setError('Too many signup attempts. Please try again later.')
+      } else if (err?.status === 400 || err?.kind === 'bad_request') {
+        setError(err.message || 'An account with this email already exists.')
+      } else {
+        setError(err?.message || 'Could not create account. Please try again.')
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -43,10 +55,10 @@ export default function Signup() {
       <h1
         className="font-display"
         style={{
-          color: '#ffffff',
-          fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
+          color: 'var(--on-dark)',
+          fontSize: '1.75rem',
           fontWeight: 400,
-          marginBottom: '1.75rem',
+          marginBottom: '1.25rem',
           textAlign: 'center',
         }}
       >
@@ -56,13 +68,14 @@ export default function Signup() {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
+        style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
         noValidate
       >
         <Input
           id="signup-name"
           label="FULL NAME"
           type="text"
+          placeholder="Jane Doe"
           value={name}
           onChange={(e) => setName(e.target.value)}
           autoComplete="name"
@@ -72,8 +85,9 @@ export default function Signup() {
         />
         <Input
           id="signup-email"
-          label="EMAIL"
+          label="EMAIL ADDRESS"
           type="email"
+          placeholder="name@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
@@ -87,6 +101,7 @@ export default function Signup() {
             id="signup-password"
             label="PASSWORD"
             type={showPassword ? 'text' : 'password'}
+            placeholder="At least 8 characters"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="new-password"
@@ -105,11 +120,14 @@ export default function Signup() {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--on-dark-muted)',
-              padding: '2px',
+              color: '#a1a1aa',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            {showPassword ? <EyeOff size={15} strokeWidth={1.5} /> : <Eye size={15} strokeWidth={1.5} />}
+            {showPassword ? <EyeOff size={18} strokeWidth={1.5} /> : <Eye size={18} strokeWidth={1.5} />}
           </button>
         </div>
 
@@ -117,6 +135,7 @@ export default function Signup() {
           id="signup-confirm"
           label="CONFIRM PASSWORD"
           type={showPassword ? 'text' : 'password'}
+          placeholder="Re-enter your password"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           autoComplete="new-password"
@@ -137,11 +156,9 @@ export default function Signup() {
           fullWidth
           disabled={loading}
           style={{
-            marginTop: '8px',
+            marginTop: '4px',
             letterSpacing: '0.12em',
-            minHeight: 48,
-            backgroundColor: 'var(--champagne)',
-            color: '#000000',
+            minHeight: 44,
           }}
         >
           {loading ? 'Creating account…' : 'CREATE ACCOUNT'}
@@ -153,7 +170,7 @@ export default function Signup() {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          marginTop: '1.25rem',
+          marginTop: '1rem',
         }}
       >
         <Link

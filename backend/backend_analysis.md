@@ -31,8 +31,11 @@ graph TD
         CORS["CORS Middleware"]
         Ingest["POST /api/v1/ingest"]
         Search["POST /api/v1/search"]
+        ListProd["GET /api/v1/products"]
+        ListCat["GET /api/v1/categories"]
         GetProd["GET /api/v1/products/{id}"]
         DelProd["DELETE /api/v1/products/{id}"]
+        ClearCat["DELETE /api/v1/admin/clear"]
         Health["GET /api/v1/health"]
     end
 
@@ -202,8 +205,11 @@ generate_grounded_response()
 | `GET` | `/` | ❌ Open | Quick liveness + model status |
 | `GET` | `/api/v1/health` | ❌ Open | Detailed health: Ollama, ChromaDB, Gemini |
 | `POST` | `/api/v1/ingest` | 🔑 X-Api-Key | Upsert a product (validate → embed → store) |
+| `GET` | `/api/v1/products` | ❌ Open | Browse / filter / sort products (with pagination) |
 | `GET` | `/api/v1/products/{id}` | ❌ Open | Fetch single product metadata |
 | `DELETE` | `/api/v1/products/{id}` | 🔑 X-Api-Key | Remove a product from the index |
+| `GET` | `/api/v1/categories` | ❌ Open | Top-level categories with product counts |
+| `DELETE` | `/api/v1/admin/clear` | 🔑 X-Api-Key | Delete all products from catalog (requires `?confirm=true`) |
 | `POST` | `/api/v1/search` | ❌ Open | Multimodal semantic search + AI reasoning |
 
 > 🔑 Auth is optional in dev mode (INGEST_API_KEY left empty = open access).

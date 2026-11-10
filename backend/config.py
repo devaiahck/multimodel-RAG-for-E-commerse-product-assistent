@@ -27,8 +27,25 @@ class Settings(BaseSettings):
     EMBEDDING_CACHE_MAXSIZE: int = 512
     EMBEDDING_CACHE_TTL: int = 3600  # seconds
 
-    # --- API / CORS ---
-    ALLOWED_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+    # --- API / CORS & Sessions ---
+    FRONTEND_ORIGINS: str = "http://127.0.0.1:5173,http://localhost:5173"
+    COOKIE_SECURE: bool = False
+    ALLOWED_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+        "http://localhost:8001",
+        "http://127.0.0.1:8001",
+    ]
+
+    @property
+    def frontend_origins_list(self) -> List[str]:
+        origins = [o.strip() for o in self.FRONTEND_ORIGINS.split(",") if o.strip()]
+        return origins if origins else ["http://127.0.0.1:5173", "http://localhost:5173"]
+
+    # --- Environment ---
+    APP_ENV: str = "dev"  # "dev" | "production" | "staging"
 
     # --- Ingestion security ---
     # Set a non-empty secret to require X-API-Key on POST /api/v1/ingest
@@ -42,6 +59,11 @@ class Settings(BaseSettings):
 
     # --- Rate limiting ---
     SEARCH_RATE_LIMIT: str = "30/minute"  # e.g. "30/minute", "100/hour"
+
+    # --- Notifications ---
+    NOTIFY_PROVIDER: str = "console"  # "console" | "telegram" | "sms"
+    TELEGRAM_BOT_TOKEN: str = ""
+    FRONTEND_BASE_URL: str = "http://localhost:5173"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
