@@ -257,3 +257,4 @@ Before deploying UrbanPick to a public production environment:
   - Configure production database backups for `backend/data/users.db` and `backend/data/alerts.db`.
   - Set up persistent storage for `backend/chroma_db` vector store.
   - Set up a reverse proxy (e.g., Nginx, Caddy, or Cloudflare) with SSL termination.
+"# multimodel-RAG-for-E-commerse-product-assistent" 
